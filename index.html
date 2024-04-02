@@ -12,18 +12,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CPE_Ping_Response_Time_Plot</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        line-height: 1.2;
-        font-size: 14px;
-    }
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.2;
+            font-size: 14px;
+        }
 
-    .red {
-        color: red;
-    }
-</style>
+        .red {
+            color: red;
+        }
+
+        .input-container {
+            margin-left: 80px;
+        }
+
+        #statistics {
+            margin-left: 80px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
 
 <body>
     <h2>CPE_Ping_Response_Time_Plot</h2>
@@ -38,16 +47,18 @@
                     ex:<br>
                     <span class="red">ping 10.205.164.18 -t | while read pong; do echo "$(date): $pong"; done</span>
                 </li>
-
-
-
-                <textarea id="data" rows="10" cols="90" placeholder="Please paste the whole ping data here to draw"></textarea><br>
-                <button onclick="plotData()">Plot Data</button>
-
-                <div id="plot"></div>
             </ul>
         </li>
     </ul>
+
+    <div class="input-container">
+        <textarea id="data" rows="10" cols="90" placeholder="Please paste the whole ping data here to draw"></textarea><br>
+        <button onclick="plotData()">Plot Data</button>
+    </div>
+
+    <div id="plot"></div>
+    <div id="statistics"></div>
+
     <script>
         function plotData() {
             var dataInput = document.getElementById("data").value;
@@ -85,7 +96,7 @@
                     showarrow: true,
                     arrowhead: 7,
                     ax: 0,
-                    ay: -40,
+        ay: -40, // 調整此值以避免與其他標籤重疊
                     font: {
                         color: 'red'
                     }
@@ -99,7 +110,7 @@
                     showarrow: true,
                     arrowhead: 7,
                     ax: 0,
-                    ay: -40,
+        ay: -60, // 調整此值以避免與其他標籤重疊
                     font: {
                         color: 'red'
                     }
@@ -113,7 +124,7 @@
                     showarrow: true,
                     arrowhead: 7,
                     ax: 0,
-                    ay: -40,
+        ay: -80, // 調整此值以避免與其他標籤重疊
                     font: {
                         color: 'red'
                     }
@@ -134,6 +145,11 @@
             var data = [trace];
 
             Plotly.newPlot('plot', data, layout);
+
+            // 在統計區域顯示最小、平均和最大值
+            var statsHTML = "<p>Statistics:</p><ul><li>Min: " + minValue + "ms</li><li>Avg: " + averageValue.toFixed(2) +
+                "ms</li><li>Max: " + maxValue + "ms</li></ul>";
+            document.getElementById("statistics").innerHTML = statsHTML;
         }
     </script>
 </body>
