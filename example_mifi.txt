@@ -1,0 +1,17 @@
+Microsoft Windows [版本 10.0.19045.4170]
+(c) Microsoft Corporation. 著作權所有，並保留一切權利。
+
+C:\Users\Kaohsiung>adb shell
+/ # ping 192.168.101.200 -c5 | while read pong; do echo "$(date): $pong"; done
+Thu Jan 24 21:36:39 UTC 1980: PING 192.168.101.200 (192.168.101.200) 56(84) bytes of data.
+Thu Jan 24 21:36:39 UTC 1980: 64 bytes from 192.168.101.200: icmp_seq=1 ttl=64 time=24.10 ms
+Thu Jan 24 21:36:40 UTC 1980: 64 bytes from 192.168.101.200: icmp_seq=2 ttl=64 time=26.7 ms
+Thu Jan 24 21:36:41 UTC 1980: 64 bytes from 192.168.101.200: icmp_seq=3 ttl=64 time=25.4 ms
+Thu Jan 24 21:36:42 UTC 1980: 64 bytes from 192.168.101.200: icmp_seq=4 ttl=64 time=23.1 ms
+Thu Jan 24 21:36:43 UTC 1980: 64 bytes from 192.168.101.200: icmp_seq=5 ttl=64 time=26.1 ms
+Thu Jan 24 21:36:43 UTC 1980:
+Thu Jan 24 21:36:43 UTC 1980: --- 192.168.101.200 ping statistics ---
+Thu Jan 24 21:36:43 UTC 1980: 5 packets transmitted, 5 received, 0% packet loss, time 11ms
+Thu Jan 24 21:36:43 UTC 1980: rtt min/avg/max/mdev = 23.128/25.249/26.669/1.221 ms
+/ #
+

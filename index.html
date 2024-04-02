@@ -1,0 +1,141 @@
+<!-- 
+  Copyright © [2023] [Dustin_Chen]. All rights reserved.
+  Author: Dustin_Chen
+  Email:  Dustin_Chen@compal.com or chuhpsdustin@gmail.com
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPE_Ping_Response_Time_Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.2;
+        font-size: 14px;
+    }
+
+    .red {
+        color: red;
+    }
+</style>
+
+<body>
+    <h2>CPE_Ping_Response_Time_Plot</h2>
+    <p style="margin: 0;">Author: Dustin_Chen, email: <a href="mailto:Dustin_Chen@compal.com"
+            style="line-height: 1;">Dustin_Chen@compal.com</a> or <a href="mailto:chuhpsdustin@gmail.com"
+            style="line-height: 1;">chuhpsdustin@gmail.com</a></p>
+
+    <ul>
+        <li><strong>【How to use】</strong>
+            <ul>
+                <li> Please use the command below in MobaxTerm "Session->Shell" to generate the ping response time data:
+                    ex:<br>
+                    <span class="red">ping 10.205.164.18 -t | while read pong; do echo "$(date): $pong"; done</span>
+                </li>
+
+
+
+                <textarea id="data" rows="10" cols="90"></textarea><br>
+                <button onclick="plotData()">Plot Data</button>
+
+                <div id="plot"></div>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        function plotData() {
+            var dataInput = document.getElementById("data").value;
+            var pattern =
+                /([A-Za-z]{3}\s[A-Za-z]{3}\s\s\d{1,2}\s)(\d{2}:\d{2}:\d{2})\s+\d{4}:\sReply\sfrom\s.*\stime=(\d+)ms/g;
+            var matches;
+            var xValues = [];
+            var yValues = [];
+
+            while ((matches = pattern.exec(dataInput)) !== null) {
+                var timePart = matches[2]; // 提取時間部分
+                xValues.push(timePart);
+                yValues.push(parseInt(matches[3]));
+            }
+
+            var trace = {
+                x: xValues,
+                y: yValues,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+
+            // 計算最小、平均和最大值
+            var minValue = Math.min(...yValues);
+            var maxValue = Math.max(...yValues);
+            var sum = yValues.reduce((a, b) => a + b, 0);
+            var averageValue = sum / yValues.length;
+
+            var annotations = [{
+                    x: xValues[yValues.indexOf(minValue)],
+                    y: minValue,
+                    xref: 'x',
+                    yref: 'y',
+                    text: 'Min: ' + minValue + 'ms',
+                    showarrow: true,
+                    arrowhead: 7,
+                    ax: 0,
+                    ay: -40,
+                    font: {
+                        color: 'red'
+                    }
+                },
+                {
+                    x: xValues[yValues.indexOf(averageValue)],
+                    y: averageValue,
+                    xref: 'x',
+                    yref: 'y',
+                    text: 'Avg: ' + averageValue.toFixed(2) + 'ms',
+                    showarrow: true,
+                    arrowhead: 7,
+                    ax: 0,
+                    ay: -40,
+                    font: {
+                        color: 'red'
+                    }
+                },
+                {
+                    x: xValues[yValues.indexOf(maxValue)],
+                    y: maxValue,
+                    xref: 'x',
+                    yref: 'y',
+                    text: 'Max: ' + maxValue + 'ms',
+                    showarrow: true,
+                    arrowhead: 7,
+                    ax: 0,
+                    ay: -40,
+                    font: {
+                        color: 'red'
+                    }
+                }
+            ];
+
+            var layout = {
+                title: 'CPE_Ping_Response_Time_Plot',
+                xaxis: {
+                    title: 'Time'
+                },
+                yaxis: {
+                    title: 'Response Time (ms)'
+                },
+                annotations: annotations
+            };
+
+            var data = [trace];
+
+            Plotly.newPlot('plot', data, layout);
+        }
+    </script>
+</body>
+
+</html>
