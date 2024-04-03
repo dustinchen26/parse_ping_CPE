@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPE_Ping_Response_Time_Plot</title>
+    <title>Parse_Ping_draw_CPE(PC ping UE ip)</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
@@ -35,7 +35,7 @@
 </head>
 
 <body>
-    <h2>CPE_Ping_Response_Time_Plot</h2>
+    <h2>Parse_Ping_draw_CPE(PC ping UE ip)</h2>
     <p style="margin: 0;">Author: Dustin_Chen, email: <a href="mailto:Dustin_Chen@compal.com"
             style="line-height: 1;">Dustin_Chen@compal.com</a> or <a href="mailto:chuhpsdustin@gmail.com"
             style="line-height: 1;">chuhpsdustin@gmail.com</a></p>
@@ -44,7 +44,7 @@
         <li><strong>【How to use】</strong>
             <ul>
                 <li> Please use the command below in MobaxTerm "Session->Shell" to generate the ping response time data:
-                    ex:<br>
+                    (ex: PC ping UE ip)<br>
                     <span class="red">ping 10.205.164.18 -t | while read pong; do echo "$(date): $pong"; done</span>
                 </li>
             </ul>
